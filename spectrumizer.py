@@ -51,9 +51,15 @@ def getFreqSpec(filename, fft_length):
         FFT = average(FFT, axis=0)
     else:
         FFT = FFT[0]
-    return FFT, freqs
+    return FFT
 
 def plotFreqSpec(FFT, freqs):
     pylab.plot(freqs[:len(freqs)/2], FFT[:len(FFT)/2],'x')
     pylab.show()
 
+def getSpecs(path, num_freq_bins):
+    specs = []
+    for filename in os.listdir(path):
+        freqspec = getFreqSpec(path+filename, num_freq_bins)
+        specs.append(freqspec)
+    return specs
