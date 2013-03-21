@@ -7,7 +7,7 @@ class FreqSpecDataset():
         self.normalize(self.specs)
 
     def normalizeSpec(self, spec):
-        for i in range(self.num_freq_bins):
+        for i in range(len(spec)):
             spec[i] = (spec[i] - self.mins[i])/(self.maxes[i]-self.mins[i])
     
     def normalize(self, specs):

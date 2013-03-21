@@ -2,7 +2,7 @@ import sys
 import pickle
 from numpy import argmax
 from spectrumizer import getFreqSpec
-from train_network import class_labels
+from train import class_labels
 
 if len(sys.argv) < 4:
     print "Usage:\nnetwork dataset .wav-file"
@@ -12,7 +12,7 @@ nn = pickle.load(open(sys.argv[1], 'r'))
 
 ds = pickle.load(open(sys.argv[2], 'r'))
 
-freqSpec = getFreqSpec(sys.argv[3], ds.num_freq_bins)
+freqSpec, freqs = getFreqSpec(sys.argv[3], ds.num_freq_bins*2)
 
 ds.normalizeSpec(freqSpec)
 

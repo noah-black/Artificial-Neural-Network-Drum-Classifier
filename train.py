@@ -12,16 +12,26 @@ import time
 class_labels=['snare', 'hat', 'kick']
 
 if __name__=="__main__":
-    num_epochs = int(sys.argv[1])
-    filename = sys.argv[2]
+    try:
+        num_epochs = int(sys.argv[1])
+        if num_epochs < 1:
+            raise ValueError
+        filename = sys.argv[2]
+    except IndexError:
+        sys.stderr.write("Usage:\n\rpython " + __file__ + " [number of epochs] [dataset file name]\n")
+        sys.exit()
+    except ValueError:
+        sys.stderr.write("Number of epochs must be a positive number\n")
+        sys.exit()
+
     momentum = 0.2
     weightdecay = 0.0001
     
     dataset = cPickle.load(open(filename, 'rb'))
     
-    num_freq_bins = len(dataset.specs['snares'][0])
+    num_inputs = len(dataset.specs['snares'][0])
     
-    ds = ClassificationDataSet(num_freq_bins, nb_classes=3)
+    ds = ClassificationDataSet(num_inputs, nb_classes=3)
     
     for spec in dataset.specs['snares']:
         ds.addSample(spec, [0])
@@ -35,8 +45,8 @@ if __name__=="__main__":
     trndata._convertToOneOfMany( )
     tstdata._convertToOneOfMany( )
     
-    #fnn = buildNetwork(trndata.indim, (num_freq_bins/2)-1, trndata.outdim, hiddenclass=SigmoidLayer, outclass=SoftmaxLayer )
-    fnn = buildNetwork(trndata.indim, (num_freq_bins/2)-1, trndata.outdim, outclass=SoftmaxLayer )
+    #fnn = buildNetwork(trndata.indim, (num_inputs/2)-1, trndata.outdim, hiddenclass=SigmoidLayer, outclass=SoftmaxLayer )
+    fnn = buildNetwork(trndata.indim, (dataset.num_freq_bins/2), trndata.outdim, outclass=SoftmaxLayer )
     
     trainer = BackpropTrainer(fnn, dataset=trndata, momentum=momentum, verbose=True, weightdecay=weightdecay)
     
@@ -61,4 +71,4 @@ if __name__=="__main__":
               "  train error: %5.2f%%" % trnresult, \
               "  test error: %5.2f%%" % tstresult
     
-    cPickle.dump(fnn , open('network'+str(num_freq_bins), 'wb'))
+    cPickle.dump(fnn , open('networks/network'+str(dataset.num_freq_bins), 'wb'))
