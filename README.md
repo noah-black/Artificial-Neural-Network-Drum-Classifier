@@ -1,11 +1,14 @@
-Artificial Neural Network Drum Classifier
-by Noah Black
-*For CS 385*
+__Artificial Neural Network Drum Classifier__
+=============================================
+*by Noah Black, for CS 485*
 
 REQUIRED LIBRARIES:
-PyBrain (ANN stuff, Scipy (FFT stuff), Numpy (convenient matrix/array methods), Pylab (for plotting spectrum)
+* PyBrain (ANN stuff)
+* Scipy (FFT stuff)
+* Numpy (convenient matrix/array methods)
+* Pylab (for plotting spectrum)
 
-_TO PREPARE A NETWORK_:
+__TO PREPARE A NETWORK__:
 
 1. Prepare the training drum sounds
     The training dataset should be in a directory called 'training\_dataset'. Inside of 'training\_drums' there need to be 'snare', 'hat', and 'kick' subdirectories. Inside each of these should be 16-bit wav files.
@@ -21,20 +24,20 @@ _TO PREPARE A NETWORK_:
         python train.py [number of training epochs] [dataset file path]
 
 
-_TO USE A NETWORK_:
+__TO USE A NETWORK__:
 
 You may use the network to classify audio files using 'classify.py'. You need to provide the network *and* the dataset. This is because the dataset knows the number of frequency bands, and the network doesn't. I should just find a way of embedding frequency band number into the serialized network (subclassing PyBrain's network class, or whatever).
 
     Usage:
         python classify.py [network] [dataset] [.wav-file] 
 
-_TO EXTRACT DRUM SOUNDS FROM RECORDING_:
+__TO EXTRACT DRUM SOUNDS FROM RECORDING__:
 Use the extract.py script. This puts the files 'hat\_best.wav', 'snare\_best.wav', 'kick\_best.wav' in the current directory.
 
     Usage:
         python extract.py [network] [dataset] [.wav-file] 
 
-_TO DISPLAY A PLOT THE FREQUENCY SPECTRUM OF AN AUDIO FILE_:
+__TO DISPLAY A PLOT THE FREQUENCY SPECTRUM OF AN AUDIO FILE__:
 
 Use plot.py
     Usage: 
